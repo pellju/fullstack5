@@ -1,6 +1,19 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
+const removeBlog = async (blog, setBlogs) => {
+  const blogId = blog.id.toString()
+
+  try {
+    if (window.confirm(`Remove blog "${blog.title}" by ${blog.author}?`)) {
+      const response = await blogService.removeBlog(blogId)
+      setBlogs(response)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 const increaseLike = async (blog, setBlogs) => {
   //console.log(blog)
   //event.preventDefault()
@@ -14,7 +27,7 @@ const increaseLike = async (blog, setBlogs) => {
   }
 }
 
-const Blog = ({blog, setBlogs}) => {
+const Blog = ({ blog, setBlogs }) => {
   console.log(blog)
   const blogStyle = {
     paddingTop: 10,
@@ -23,11 +36,11 @@ const Blog = ({blog, setBlogs}) => {
     borderWidth: 1,
     marginBottom: 5
   }
-  
+
   const [showingBlog, setShowingBlog] = useState(false)
 
-  const hideBlog = { display: showingBlog ? 'none' : ''}
-  const showBlog = { display: showingBlog ? '' : 'none'}
+  const hideBlog = { display: showingBlog ? 'none' : '' }
+  const showBlog = { display: showingBlog ? '' : 'none' }
 
   const listBlogs = () => {
     return (
@@ -40,6 +53,7 @@ const Blog = ({blog, setBlogs}) => {
           <div>Url: {blog.url}</div>
           <div>Likes: {blog.likes} <button onClick={() => increaseLike(blog, setBlogs)}>Like</button></div>
           <div>Added by: {blog.users[0].name}</div>
+          <div><button onClick={() => removeBlog(blog, setBlogs)}>Remove blog</button></div>
           <br></br>
         </div>
       </div>
@@ -52,6 +66,6 @@ const Blog = ({blog, setBlogs}) => {
     </div>
   )
 }
-  
+
 
 export default Blog

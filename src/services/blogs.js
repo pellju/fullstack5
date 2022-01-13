@@ -13,7 +13,7 @@ const setToken = (userToken) => {
 }
 
 const addBlog = async (newBlog) => {
-  const requiredHeaders =  {headers: {Authorization: token}}
+  const requiredHeaders =  { headers: { Authorization: token } }
   const response = await axios.post(baseUrl, newBlog, requiredHeaders)
   return response.data
 }
@@ -28,9 +28,16 @@ const addLike = async (title, author, url, likes, id) => {
     likes: likes
   }
 
-  const requiredHeaders =  {headers: {Authorization: token}}
+  const requiredHeaders =  { headers: { Authorization: token } }
   const response = await axios.put(newUrl, newBlog, requiredHeaders)
   return response.data
 }
 
-export default { getAll, setToken, addBlog, addLike }
+const removeBlog = async (id) => {
+  let newUrl = `${baseUrl}/${id}`
+  const requiredHeaders =  { headers: { Authorization: token } }
+  const response = await axios.delete(newUrl, requiredHeaders)
+  return response.data
+}
+
+export default { getAll, setToken, addBlog, addLike, removeBlog }
