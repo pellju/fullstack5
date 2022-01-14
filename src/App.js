@@ -63,19 +63,59 @@ const Error = ({ message }) => {
   )
 }
 
+const removeBlog = async (blog, setBlogs) => {
+  const blogId = blog.id.toString()
+
+  try {
+    if (window.confirm(`Remove blog "${blog.title}" by ${blog.author}?`)) {
+      const response = await blogService.removeBlog(blogId)
+      setBlogs(response)
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+const increaseLike = async (blog, setBlogs) => {
+  //console.log(blog)
+  //event.preventDefault()
+
+  try {
+    const response = await blogService.addLike(blog.title, blog.author, blog.url, blog.likes + 1, blog.id).then()
+    //const newBlogs = await blogService.getAll()
+    setBlogs(response)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+
 const BlogForm = ({ user, handleLogout, setSuccessMessage, setErrorMessage, blogs, setBlogs, setAuthor, author, setUrl, url, setTitle, title }) => {
   blogs.sort(function(a,b) {
     return b.likes - a.likes
   })
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
+
   //console.log(user)
   return (
     <div>
-        User {user.name} has logged in. <form onSubmit={handleLogout}><button type='submit'>Logout</button></form>
+      User {user.name} has logged in. <form onSubmit={handleLogout}><button type='submit'>Logout</button></form>
 
       < AddingBlogForm setSuccessMessage={setSuccessMessage} setErrorMessage={setErrorMessage} setBlogs={setBlogs} setAuthor={setAuthor} author={author} setUrl={setUrl} url={url} setTitle={setTitle} title={title} />
-
       {blogs.map(blog =>
-        <div key={blog.title}>< Blog blog={blog} setBlogs={setBlogs}/></div>
+        <div style={blogStyle} key={blog.title}>
+          <div>< Blog blog={blog} setBlogs={setBlogs}/></div>
+          <div><button onClick={() => increaseLike(blog, setBlogs)}>Like Blog</button><button onClick={() => removeBlog(blog, setBlogs)}>Remove blog</button></div>
+          <br></br>
+        </div>
       )}
     </div>
 
