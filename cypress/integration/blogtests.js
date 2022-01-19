@@ -67,6 +67,68 @@ describe('Blog app', function() {
         cy.get('#author').type('testuser')
         cy.get('#url').type('domain.fi')
         cy.contains('Create new blog').click()
-        //cy.contains('Blog my blog 1 has been added.')
+        cy.contains('Blog my blog 1 has been added.')
+    })
+})
+
+describe('Blog app', function() {
+    beforeEach(function() {
+        cy.request('POST', 'http://localhost:3003/api/testing/reset')
+        cy.visit('http://localhost:3000')
+
+        const newUser = {
+            username: "testuser",
+            name: "testuser",
+            password: "123456"
+        }
+
+        cy.request('POST', 'http://localhost:3003/api/users', newUser)
+        cy.visit('http://localhost:3000')
+        cy.contains('Login').click()
+        cy.get('#Username').type('testuser')
+        cy.get('#Password').type('123456')
+        cy.contains('Log me in').click()
+
+        cy.get('#title').type('my blog 1')
+        cy.get('#author').type('testuser')
+        cy.get('#url').type('domain.fi')
+        cy.contains('Create new blog').click()
+
+    })
+    it('Liking blog increases likes', function() {       
+        cy.contains('Like Blog').click()
+        cy.contains('View blog info').click()
+        cy.contains('Likes: 1')
+
+    })
+})
+
+describe('Blog app', function() {
+    beforeEach(function() {
+        cy.request('POST', 'http://localhost:3003/api/testing/reset')
+        cy.visit('http://localhost:3000')
+
+        const newUser = {
+            username: "testuser",
+            name: "testuser",
+            password: "123456"
+        }
+
+        cy.request('POST', 'http://localhost:3003/api/users', newUser)
+        cy.visit('http://localhost:3000')
+        cy.contains('Login').click()
+        cy.get('#Username').type('testuser')
+        cy.get('#Password').type('123456')
+        cy.contains('Log me in').click()
+
+        cy.get('#title').type('my blog 1')
+        cy.get('#author').type('testuser')
+        cy.get('#url').type('domain.fi')
+        cy.contains('Create new blog').click()
+
+    })
+    it('Removing blog', function() {       
+        cy.contains('Remove blog').click()
+        cy.get('my blog 1').should('not.exist')
     })
 })
