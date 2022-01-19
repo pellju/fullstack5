@@ -29,10 +29,10 @@ const AddingBlogForm = ({ setSuccessMessage, setErrorMessage, setBlogs, setAutho
     <div>
       <h2>Create a new blog:</h2>
       <form onSubmit={handleNewBlog}>
-        <p>Title: <input type='text' name='title' minLength='1' required onChange={({ target }) => setTitle(target.value)}/></p>
-        <p>Author: <input type='text' name='author' minLength='1' required onChange={({ target }) => setAuthor(target.value)}/></p>
-        <p>Url: <input type='text' name='url' minLength='1' required onChange={({ target }) => setUrl(target.value)}/></p>
-        <p><button type='submit'>Create</button></p>
+        <p>Title: <input type='text' name='title' id='title' minLength='1' required onChange={({ target }) => setTitle(target.value)}/></p>
+        <p>Author: <input type='text' name='author' id='author' minLength='1' required onChange={({ target }) => setAuthor(target.value)}/></p>
+        <p>Url: <input type='text' name='url' id='url' minLength='1' required onChange={({ target }) => setUrl(target.value)}/></p>
+        <p><button type='submit'>Create new blog</button></p>
       </form>
     </div>
   )

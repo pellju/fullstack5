@@ -142,6 +142,7 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('userIdentification', JSON.stringify(user))
 
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -178,19 +179,6 @@ const App = () => {
   }, [])
 
   const loginForm = () => {
-    /*const hideLogin = { display: loginShown ? 'none' : ''}
-    const showLogin = { display: loginShown ? '' : 'none'}
-
-    return (
-        <div>
-          <div style={hideLogin}>
-            <button onClick={() => setLoginShown(true)}>Login</button>
-          </div>
-          <div style={showLogin}>
-            < LoginForm handleLogin={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} loginShown={loginShown} setLoginShown={setLoginShown} />
-          </div>
-        </div>
-    )*/
     return (
       <Togglable buttonLabel='Login'>
         < LoginForm handleLogin={handleLogin} username={username} setUsername={setUsername} password={password} setPassword={setPassword} loginShown={loginShown} setLoginShown={setLoginShown} />
